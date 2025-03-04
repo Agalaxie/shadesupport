@@ -1,3 +1,6 @@
+// Ajouter la déclaration de runtime en haut du fichier
+export const runtime = 'nodejs';
+
 import { NextResponse } from "next/server";
 
 // API simplifiée pour attribuer le rôle admin

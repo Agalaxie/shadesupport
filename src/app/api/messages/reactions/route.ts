@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 import { auth } from '@clerk/nextjs/server';
-import { prisma } from '@/lib/prisma';
+
+export const runtime = 'nodejs';
 
 // POST /api/messages/reactions - Ajouter une réaction
 export async function POST(req: NextRequest) {

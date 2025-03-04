@@ -3,6 +3,8 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import logger from "@/lib/logger";
 
+export const runtime = 'nodejs';
+
 // Variable pour suivre les synchronisations récentes par utilisateur
 const recentSyncs: Record<string, number> = {};
 const SYNC_COOLDOWN = 5000; // 5 secondes entre les synchronisations

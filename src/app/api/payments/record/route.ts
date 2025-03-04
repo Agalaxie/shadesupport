@@ -1,3 +1,6 @@
+// Ajouter la déclaration de runtime en haut du fichier
+export const runtime = 'nodejs';
+
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";

@@ -1,3 +1,6 @@
+// Ajouter la déclaration de runtime en haut du fichier
+export const runtime = 'nodejs';
+
 import { clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
