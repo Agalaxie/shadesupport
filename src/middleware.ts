@@ -8,14 +8,17 @@ export default authMiddleware({
   // Routes that can be accessed while signed out
   publicRoutes: [
     "/",
-    "/api/webhook(.*)",
-    "/legal(.*)",
-    "/terms(.*)",
-    "/cookies(.*)",
-    "/contact",
+    "/api/webhooks(.*)",
+    "/sign-in(.*)",
+    "/sign-up(.*)",
     "/pricing",
     "/features",
+    "/contact",
+    "/legal",
     "/privacy",
+    "/terms",
+    "/cookies",
+    "/api/set-admin",
   ],
   // Routes that can always be accessed, and have
   // no authentication information
@@ -29,30 +32,34 @@ export default authMiddleware({
   },
   // Custom function to run after the middleware
   afterAuth: (auth, req) => {
-    // Si l'utilisateur est connecté
-    if (auth.userId) {
-      const userEmail = auth.sessionClaims?.email as string;
+    // Rediriger l'administrateur vers le dashboard admin s'il est connecté
+    if (auth.userId && auth.sessionClaims?.email === "stephdumaz@gmail.com") {
+      const url = new URL(req.url);
+      const path = url.pathname;
       
-      // Si c'est l'email de l'admin, rediriger vers le tableau de bord admin
-      if (userEmail === 'stephdumaz@gmail.com') {
-        if (!req.nextUrl.pathname.startsWith('/admin')) {
-          return NextResponse.redirect(new URL('/admin', req.url));
-        }
-        return NextResponse.next();
+      // Si l'admin n'est pas déjà sur une page admin, le rediriger vers /admin
+      if (!path.startsWith("/admin")) {
+        const adminUrl = new URL("/admin", req.url);
+        return NextResponse.redirect(adminUrl);
       }
     }
 
-    // Vérification des routes admin
-    if (req.nextUrl.pathname.startsWith('/admin')) {
-      if (!auth.userId) {
-        return NextResponse.redirect(new URL('/sign-in', req.url));
-      }
-      
+    // Vérifier si l'utilisateur essaie d'accéder à une route admin
+    if (req.nextUrl.pathname.startsWith("/admin")) {
+      // Vérifier si l'utilisateur est connecté et a le rôle admin
       const metadata = auth.sessionClaims?.metadata as Record<string, unknown> || {};
-      const isAdmin = Array.isArray(metadata.roles) && metadata.roles.includes('admin');
-      
-      if (!isAdmin && process.env.NODE_ENV !== 'development') {
-        return NextResponse.redirect(new URL('/client', req.url));
+      if (!auth.userId || metadata.role !== "admin") {
+        const homeUrl = new URL("/", req.url);
+        return NextResponse.redirect(homeUrl);
+      }
+    }
+
+    // Vérifier si l'utilisateur essaie d'accéder à une route client
+    if (req.nextUrl.pathname.startsWith("/client")) {
+      // Vérifier si l'utilisateur est connecté
+      if (!auth.userId) {
+        const signInUrl = new URL("/sign-in", req.url);
+        return NextResponse.redirect(signInUrl);
       }
     }
     
