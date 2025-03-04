@@ -22,6 +22,9 @@ const nextConfig = {
     };
     return config;
   },
+  experimental: {
+    runtime: 'nodejs'
+  }
 }
 
 module.exports = nextConfig 

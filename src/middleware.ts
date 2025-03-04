@@ -69,4 +69,5 @@ export const config = {
     "/api/tickets/[id](.*)",
     "/api/sync-user(.*)"
   ],
+  runtime: 'nodejs'
 }; 
