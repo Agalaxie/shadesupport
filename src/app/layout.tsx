@@ -14,6 +14,9 @@ import { ErrorHandler } from "@/components/error-handler";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// Désactiver l'Edge Runtime pour éviter les problèmes avec Clerk
+export const runtime = 'nodejs';
+
 export const metadata: Metadata = {
   title: 'AppShade - Gestion de tickets',
   description: 'Plateforme de gestion de tickets de support',

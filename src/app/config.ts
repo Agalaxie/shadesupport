@@ -14,12 +14,20 @@ export const DATABASE_URL = process.env.DATABASE_URL;
 export const DIRECT_URL = process.env.DIRECT_URL;
 
 // Vérification des variables d'environnement requises
-if (!CLERK_PUBLISHABLE_KEY) {
-  console.error('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is not defined');
+if (typeof window === 'undefined') {
+  // Vérifications côté serveur uniquement
+  if (!CLERK_SECRET_KEY) {
+    console.warn('CLERK_SECRET_KEY is not defined');
+  }
+
+  if (!DATABASE_URL) {
+    console.warn('DATABASE_URL is not defined');
+  }
 }
 
-if (!DATABASE_URL) {
-  console.error('DATABASE_URL is not defined');
+// Vérifications côté client et serveur
+if (!CLERK_PUBLISHABLE_KEY) {
+  console.warn('NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is not defined');
 }
 
 // Configuration des rôles

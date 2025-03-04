@@ -2,8 +2,15 @@
 
 import { useEffect, useState } from 'react';
 
+interface DebugInfo {
+  loaded: boolean;
+  error: string | null;
+  env: Record<string, any>;
+  domains: string[];
+}
+
 export default function DebugPage() {
-  const [info, setInfo] = useState<any>({
+  const [info, setInfo] = useState<DebugInfo>({
     loaded: true,
     error: null,
     env: {},
@@ -13,7 +20,7 @@ export default function DebugPage() {
   useEffect(() => {
     // Récupérer les informations sur l'environnement
     try {
-      setInfo(prev => ({
+      setInfo((prev: DebugInfo) => ({
         ...prev,
         env: {
           nodeEnv: process.env.NODE_ENV,
@@ -28,7 +35,7 @@ export default function DebugPage() {
         ]
       }));
     } catch (error) {
-      setInfo(prev => ({
+      setInfo((prev: DebugInfo) => ({
         ...prev,
         error: error instanceof Error ? error.message : String(error)
       }));
