@@ -8,11 +8,13 @@ export default authMiddleware({
   // Routes that can be accessed while signed out
   publicRoutes: [
     "/",
+    "/debug",
+    "/login",
     "/api/webhook(.*)",
     "/api/clerk(.*)",
     "/api/trpc(.*)",
-    "/login(.*)",
-    "/signup(.*)",
+    "/sign-in(.*)",
+    "/sign-up(.*)",
     "/sso-callback(.*)",
     "/terms(.*)",
     "/privacy(.*)",

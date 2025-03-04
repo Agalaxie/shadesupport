@@ -1,15 +1,14 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
-export default function Home() {
+export default function LoginPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Marquer la page comme chargée
     setIsLoaded(true);
     
     // Capturer les erreurs globales
@@ -22,13 +21,22 @@ export default function Home() {
     return () => window.removeEventListener('error', handleError);
   }, []);
 
+  const handleLogin = () => {
+    try {
+      // Rediriger vers la page de connexion de Clerk
+      window.location.href = '/sign-in';
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur de redirection');
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">AppShade Support</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Connexion</h1>
           <p className="mt-2 text-gray-600 dark:text-gray-300">
-            Plateforme de gestion de tickets de support
+            Connectez-vous à votre compte AppShade
           </p>
         </div>
 
@@ -52,20 +60,21 @@ export default function Home() {
           </p>
           
           <div className="flex flex-col space-y-2">
-            <Link href="/debug" className="w-full">
-              <Button variant="outline" className="w-full">
-                Page de débogage
-              </Button>
-            </Link>
+            <Button 
+              onClick={handleLogin}
+              className="w-full"
+            >
+              Se connecter avec Clerk
+            </Button>
             
-            <Link href="/login" className="w-full">
-              <Button className="w-full">
-                Se connecter
+            <Link href="/" className="w-full">
+              <Button variant="outline" className="w-full">
+                Retour à l'accueil
               </Button>
             </Link>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 } 
