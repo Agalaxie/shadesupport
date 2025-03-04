@@ -4,10 +4,10 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { ClerkProvider } from "@clerk/nextjs";
 import { UserSync } from "@/components/user-sync";
 import { CookieConsent } from "@/components/cookie-consent";
 import { cn } from "@/lib/utils";
+import { ClerkProviderClient } from "@/components/clerk-provider-client";
 
 // Composant client pour la gestion des erreurs
 import { ErrorHandler } from "@/components/error-handler";
@@ -38,7 +38,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className={cn('min-h-screen bg-background font-sans antialiased', inter.className)}>
-        <ClerkProvider>
+        <ClerkProviderClient publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
           <ErrorHandler>
             <ThemeProvider
               attribute="class"
@@ -51,7 +51,7 @@ export default function RootLayout({
               <UserSync />
             </ThemeProvider>
           </ErrorHandler>
-        </ClerkProvider>
+        </ClerkProviderClient>
         <Analytics />
         <SpeedInsights />
       </body>

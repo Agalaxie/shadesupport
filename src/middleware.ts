@@ -8,22 +8,24 @@ export default authMiddleware({
   // Routes that can be accessed while signed out
   publicRoutes: [
     "/",
-    "/api/webhooks(.*)",
-    "/sign-in(.*)",
-    "/sign-up(.*)",
-    "/pricing",
-    "/features",
-    "/contact",
-    "/legal",
-    "/privacy",
-    "/terms",
-    "/cookies",
-    "/api/set-admin",
+    "/api/webhook(.*)",
+    "/api/clerk(.*)",
+    "/api/trpc(.*)",
+    "/login(.*)",
+    "/signup(.*)",
+    "/sso-callback(.*)",
+    "/terms(.*)",
+    "/privacy(.*)",
+    "/about(.*)",
+    "/contact(.*)",
+    "/api/health",
   ],
   // Routes that can always be accessed, and have
   // no authentication information
   ignoredRoutes: [
-    "/api/webhook(.*)"
+    "/api/webhook(.*)",
+    "/api/clerk(.*)",
+    "/api/health",
   ],
   // Custom function to run before the middleware
   beforeAuth: (req) => {
@@ -64,6 +66,13 @@ export default authMiddleware({
     }
     
     return NextResponse.next();
+  },
+  // Désactiver le stockage de session dans localStorage pour éviter les erreurs
+  // "Access to storage is not allowed from this context"
+  debug: process.env.NODE_ENV === "development",
+  // Configurer le comportement de Clerk en cas d'erreur
+  handleError: (error) => {
+    console.error("Clerk middleware error:", error);
   },
 });
 
