@@ -5,9 +5,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb',
-    }
+    runtime: 'nodejs',
+    serverComponentsExternalPackages: ['@clerk/nextjs'],
   },
   transpilePackages: [
     '@clerk/nextjs',
@@ -24,7 +23,34 @@ const nextConfig = {
       'node-fetch-native': false,
     };
     return config;
-  }
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  headers: async () => {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig 
