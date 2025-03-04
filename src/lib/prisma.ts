@@ -6,7 +6,7 @@ declare global {
 }
 
 // Création d'une instance PrismaClient
-const prisma = global.prisma || new PrismaClient({
+export const prisma = global.prisma || new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
 });
 

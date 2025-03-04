@@ -7,12 +7,12 @@ const nextConfig = {
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb',
-    },
-    runtime: 'nodejs'
+    }
   },
   transpilePackages: [
     '@clerk/nextjs',
-    '@clerk/clerk-react'
+    '@clerk/clerk-react',
+    '@clerk/shared'
   ],
   webpack: (config) => {
     config.resolve.fallback = {
