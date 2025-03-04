@@ -9,8 +9,7 @@ const nextConfig = {
   },
   transpilePackages: [
     '@clerk/nextjs',
-    '@clerk/clerk-react',
-    '@clerk/shared',
+    '@clerk/clerk-react'
   ],
   webpack: (config) => {
     config.resolve.fallback = {
