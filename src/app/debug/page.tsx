@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+// Importer la configuration pour désactiver l'Edge Runtime
+import '@/app/not-edge-runtime';
 
 interface DebugInfo {
   loaded: boolean;

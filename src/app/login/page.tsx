@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+// Importer la configuration pour désactiver l'Edge Runtime
+import '@/app/not-edge-runtime';
 
 export default function LoginPage() {
   const [isLoaded, setIsLoaded] = useState(false);

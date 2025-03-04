@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import '@/app/not-edge-runtime'
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);

@@ -5,31 +5,19 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
-    runtime: 'nodejs',
-    serverComponentsExternalPackages: ['@clerk/nextjs'],
+    // Forcer l'utilisation de Node.js pour tous les composants
+    serverActions: {
+      bodySizeLimit: '2mb',
+    }
   },
-  transpilePackages: [
-    '@clerk/nextjs',
-    '@clerk/clerk-react',
-    '@clerk/shared'
-  ],
-  webpack: (config) => {
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      net: false,
-      tls: false,
-      'node-fetch': false,
-      'node-fetch-native': false,
-    };
-    return config;
-  },
+  // Ignorer les avertissements liés à Clerk
   typescript: {
     ignoreBuildErrors: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Configurer les en-têtes de sécurité
   headers: async () => {
     return [
       {
@@ -50,6 +38,14 @@ const nextConfig = {
         ],
       },
     ];
+  },
+  // Configuration pour Clerk
+  webpack: (config, { isServer }) => {
+    // Forcer l'utilisation de Node.js pour Clerk
+    if (isServer) {
+      config.externals = [...config.externals, '@clerk/nextjs'];
+    }
+    return config;
   },
 }
 
