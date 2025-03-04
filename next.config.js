@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+
+// Configuration optimisée pour Vercel avec Node.js runtime
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -6,6 +8,7 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
+    runtime: 'nodejs'
   },
   transpilePackages: [
     '@clerk/nextjs',
@@ -21,9 +24,6 @@ const nextConfig = {
       'node-fetch-native': false,
     };
     return config;
-  },
-  experimental: {
-    runtime: 'nodejs'
   }
 }
 
